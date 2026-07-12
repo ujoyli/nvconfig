@@ -85,11 +85,14 @@ install_linux_deps() {
     echo "Installing dependencies on Linux..."
     if command -v apt-get &> /dev/null; then
         run_cmd apt-get update
-        run_cmd apt-get install -y git ripgrep fd-find make unzip curl tar
+        run_cmd apt-get install -y git make unzip curl tar
+        run_cmd apt-get install -y ripgrep fd-find || echo "Note: ripgrep or fd-find not found. Please install them manually."
     elif command -v pacman &> /dev/null; then
-        run_cmd pacman -Syu --noconfirm git ripgrep fd make unzip curl tar
+        run_cmd pacman -Syu --noconfirm git make unzip curl tar
+        run_cmd pacman -S --noconfirm ripgrep fd || echo "Note: ripgrep or fd not found. Please install them manually."
     elif command -v dnf &> /dev/null; then
-        run_cmd dnf install -y git ripgrep fd-find make unzip curl tar
+        run_cmd dnf install -y git make unzip curl tar
+        run_cmd dnf install -y ripgrep fd-find || echo "Note: ripgrep or fd-find not found. Please install them manually."
     else
         echo "Unsupported Linux package manager. Please install git, ripgrep, fd, make, unzip, curl, tar manually."
     fi
