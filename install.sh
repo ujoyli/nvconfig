@@ -71,16 +71,25 @@ install_neovim_linux() {
     fi
 }
 
+# Helper function to run commands with sudo if necessary, available, and not root
+run_cmd() {
+    if [ "$(id -u)" -ne 0 ] && command -v sudo &> /dev/null; then
+        sudo "$@"
+    else
+        "$@"
+    fi
+}
+
 # Function to install dependencies on Linux using pacman, apt or dnf
 install_linux_deps() {
     echo "Installing dependencies on Linux..."
     if command -v apt-get &> /dev/null; then
-        sudo apt-get update
-        sudo apt-get install -y git ripgrep fd-find make unzip curl tar
+        run_cmd apt-get update
+        run_cmd apt-get install -y git ripgrep fd-find make unzip curl tar
     elif command -v pacman &> /dev/null; then
-        sudo pacman -Syu --noconfirm git ripgrep fd make unzip curl tar
+        run_cmd pacman -Syu --noconfirm git ripgrep fd make unzip curl tar
     elif command -v dnf &> /dev/null; then
-        sudo dnf install -y git ripgrep fd-find make unzip curl tar
+        run_cmd dnf install -y git ripgrep fd-find make unzip curl tar
     else
         echo "Unsupported Linux package manager. Please install git, ripgrep, fd, make, unzip, curl, tar manually."
     fi
@@ -99,9 +108,8 @@ setup_config_symlink() {
         ln -sf "${SCRIPT_DIR}" "${target_config}"
     else
         echo "Cloning lightweight config into ~/.config/nvim..."
-        # If user runs installer as a standalone script, we clone the repo
-        # Note: You can replace the repository URL below if hosted on Github
-        git clone https://github.com/lidashuai/nvim.git "${target_config}"
+        # Clones the configured remote repository
+        git clone https://github.com/ujoyli/nvconfig.git "${target_config}"
     fi
 }
 
