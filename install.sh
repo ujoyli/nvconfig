@@ -56,8 +56,8 @@ install_neovim_linux() {
     local dest_dir="$HOME/.local"
     mkdir -p "${dest_dir}"
     
-    # Download the pre-built tarball from official GitHub release
-    local nvim_url="https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz"
+    # Download the pre-built tarball from official GitHub release (locked to v0.12.4)
+    local nvim_url="https://github.com/neovim/neovim/releases/download/v0.12.4/nvim-linux-x86_64.tar.gz"
     curl -LO "${nvim_url}"
     
     # Extract and install to ~/.local
