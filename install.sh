@@ -56,13 +56,25 @@ install_neovim_linux() {
     local dest_dir="$HOME/.local"
     mkdir -p "${dest_dir}"
     
+    local arch
+    arch="$(uname -m)"
+    local nvim_pkg
+    if [ "${arch}" = "x86_64" ]; then
+        nvim_pkg="nvim-linux-x86_64.tar.gz"
+    elif [ "${arch}" = "aarch64" ] || [ "${arch}" = "arm64" ]; then
+        nvim_pkg="nvim-linux-arm64.tar.gz"
+    else
+        echo "Unsupported CPU architecture for pre-built binaries: ${arch}"
+        exit 1
+    fi
+    
     # Download the pre-built tarball from official GitHub release (locked to v0.12.4)
-    local nvim_url="https://github.com/neovim/neovim/releases/download/v0.12.4/nvim-linux-x86_64.tar.gz"
+    local nvim_url="https://github.com/neovim/neovim/releases/download/v0.12.4/${nvim_pkg}"
     curl -LO "${nvim_url}"
     
     # Extract and install to ~/.local
-    tar -xzf nvim-linux-x86_64.tar.gz -C "${dest_dir}" --strip-components=1
-    rm nvim-linux-x86_64.tar.gz
+    tar -xzf "${nvim_pkg}" -C "${dest_dir}" --strip-components=1
+    rm "${nvim_pkg}"
     
     # Inform user to export PATH if ~/.local/bin is not in PATH
     if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
