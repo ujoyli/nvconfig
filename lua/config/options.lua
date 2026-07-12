@@ -8,6 +8,19 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- Compatibility shims for Telescope/plugins in Neovim 0.10+
+local ts_lang = vim.treesitter.language
+if ts_lang and not ts_lang.ft_to_lang then
+    ts_lang.ft_to_lang = function(ft)
+        return ts_lang.get_lang(ft) or ft
+    end
+end
+if not vim.treesitter.ft_to_lang then
+    vim.treesitter.ft_to_lang = function(ft)
+        return (ts_lang and ts_lang.get_lang(ft)) or ft
+    end
+end
+
 local opt = vim.opt
 
 -- General settings
