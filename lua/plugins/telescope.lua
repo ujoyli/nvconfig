@@ -16,7 +16,30 @@ return {
             { "<leader>fh", function() require("telescope.builtin").help_tags() end, desc = "Find Help Tags" },
         },
         config = function()
-            require("telescope").setup({})
+            -- Inject compatibility shim for nvim-treesitter.parsers.ft_to_lang under Neovim 0.11+
+            local ok, ts_parsers = pcall(require, "nvim-treesitter.parsers")
+            if ok and ts_parsers and not ts_parsers.ft_to_lang then
+                ts_parsers.ft_to_lang = function(ft)
+                    local ts_lang = vim.treesitter.language
+                    return (ts_lang and ts_lang.get_lang(ft)) or ft
+                end
+            end
+
+            local actions = require("telescope.actions")
+            require("telescope").setup({
+                defaults = {
+                    mappings = {
+                        i = {
+                            ["<C-j>"] = actions.move_selection_next,   -- Move down in insert mode
+                            ["<C-k>"] = actions.move_selection_previous, -- Move up in insert mode
+                        },
+                        n = {
+                            ["j"] = actions.move_selection_next,       -- Move down in normal mode
+                            ["k"] = actions.move_selection_previous,   -- Move up in normal mode
+                        },
+                    },
+                },
+            })
         end,
     },
 }
