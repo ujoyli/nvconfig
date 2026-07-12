@@ -1,0 +1,9 @@
+# General backup/swap files
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Neovim local config files (if any)
+.neoconf.json
+.nvim.lsp.log
