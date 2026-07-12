@@ -10,7 +10,7 @@ return {
         version = false, -- last release is way too old and doesn't work on modern neovim
         build = ":TSUpdate",
         event = { "BufReadPost", "BufNewFile" },
-        main = "nvim-treesitter.configs",
+        main = "nvim-treesitter",
         opts = {
             ensure_installed = {
                 "c",
