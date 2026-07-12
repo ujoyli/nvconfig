@@ -4,6 +4,10 @@
 -- Design: Kept clean and generic. Loads standard settings applicable to macOS and Linux.
 --]]
 
+-- Define leader keys early before any plugin loads
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 local opt = vim.opt
 
 -- General settings

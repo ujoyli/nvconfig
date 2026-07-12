@@ -6,10 +6,6 @@
 
 local map = vim.keymap.set
 
--- Set leader key to Space
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
 -- Better window navigation
 map("n", "<C-h>", "<C-w>h", { desc = "Go to Left Window", remap = true })
 map("n", "<C-j>", "<C-w>j", { desc = "Go to Lower Window", remap = true })
