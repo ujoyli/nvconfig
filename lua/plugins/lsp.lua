@@ -45,14 +45,17 @@ return {
             local capabilities = vim.lsp.protocol.make_client_capabilities()
             capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-            -- Automatically configure servers installed with mason-lspconfig
-            require("mason-lspconfig").setup_handlers({
-                function(server_name)
-                    require("lspconfig")[server_name].setup({
-                        capabilities = capabilities,
-                        on_attach = on_attach,
-                    })
-                end,
+            -- Configure servers manually to avoid deprecated/removed setup_handlers in mason-lspconfig v3+
+            local lspconfig = require("lspconfig")
+            
+            lspconfig.lua_ls.setup({
+                capabilities = capabilities,
+                on_attach = on_attach,
+            })
+            
+            lspconfig.clangd.setup({
+                capabilities = capabilities,
+                on_attach = on_attach,
             })
 
             -- Setup autocompletion config
