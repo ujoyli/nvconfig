@@ -23,7 +23,7 @@ return {
             -- Set up Mason
             require("mason").setup()
             require("mason-lspconfig").setup({
-                ensure_installed = { "lua_ls", "clangd" }, -- Install Lua and C++ language servers by default
+                ensure_installed = { "lua_ls", "clangd", "rust_analyzer" }, -- Install Lua, C++, and Rust language servers by default
             })
 
             -- Bind LSP keymaps on server attach (Neovim 0.11+ best practice)
@@ -60,6 +60,11 @@ return {
                 capabilities = capabilities,
             })
             vim.lsp.enable("clangd")
+            
+            vim.lsp.config("rust_analyzer", {
+                capabilities = capabilities,
+            })
+            vim.lsp.enable("rust_analyzer")
 
             -- Setup autocompletion config
             local cmp = require("cmp")
