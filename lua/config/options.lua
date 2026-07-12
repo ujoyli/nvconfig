@@ -17,7 +17,7 @@ opt.completeopt = { "menu", "menuone", "noselect" } -- CMP autocomplete options
 
 -- UI Configuration
 opt.number = true                       -- Show line numbers
-opt.relativenumber = true               -- Show relative line numbers
+opt.relativenumber = false              -- Disable relative line numbers
 opt.signcolumn = "yes"                  -- Keep signcolumn open
 opt.cursorline = true                   -- Highlight current line
 opt.termguicolors = true                -- Enable 24-bit RGB colors
