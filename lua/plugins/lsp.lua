@@ -26,37 +26,40 @@ return {
                 ensure_installed = { "lua_ls", "clangd" }, -- Install Lua and C++ language servers by default
             })
 
-            -- LSP settings: runs when an LSP client attaches to a buffer
-            local on_attach = function(_, bufnr)
-                local nmap = function(keys, func, desc)
-                    vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
-                end
+            -- Bind LSP keymaps on server attach (Neovim 0.11+ best practice)
+            vim.api.nvim_create_autocmd("LspAttach", {
+                callback = function(args)
+                    local bufnr = args.buf
+                    local nmap = function(keys, func, desc)
+                        vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
+                    end
 
-                nmap("gd", vim.lsp.buf.definition, "Goto Definition")
-                nmap("gr", require("telescope.builtin").lsp_references, "Goto References")
-                nmap("gI", vim.lsp.buf.implementation, "Goto Implementation")
-                nmap("K", vim.lsp.buf.hover, "Hover Documentation")
-                nmap("<leader>rn", vim.lsp.buf.rename, "Rename Symbol")
-                nmap("<leader>ca", vim.lsp.buf.code_action, "Code Action")
-                nmap("<leader>d", vim.diagnostic.open_float, "Show Line Diagnostics")
-            end
+                    nmap("gd", vim.lsp.buf.definition, "Goto Definition")
+                    nmap("gr", require("telescope.builtin").lsp_references, "Goto References")
+                    nmap("gI", vim.lsp.buf.implementation, "Goto Implementation")
+                    nmap("K", vim.lsp.buf.hover, "Hover Documentation")
+                    nmap("<leader>rn", vim.lsp.buf.rename, "Rename Symbol")
+                    nmap("<leader>ca", vim.lsp.buf.code_action, "Code Action")
+                    nmap("<leader>d", vim.diagnostic.open_float, "Show Line Diagnostics")
+                end,
+            })
 
             -- Setup nvim-cmp capabilities
             local capabilities = vim.lsp.protocol.make_client_capabilities()
             capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-            -- Configure servers manually to avoid deprecated/removed setup_handlers in mason-lspconfig v3+
-            local lspconfig = require("lspconfig")
+            -- Configure and enable servers using Neovim 0.11+ native APIs to avoid deprecation warnings
+            require("lspconfig")
             
-            lspconfig.lua_ls.setup({
+            vim.lsp.config("lua_ls", {
                 capabilities = capabilities,
-                on_attach = on_attach,
             })
+            vim.lsp.enable("lua_ls")
             
-            lspconfig.clangd.setup({
+            vim.lsp.config("clangd", {
                 capabilities = capabilities,
-                on_attach = on_attach,
             })
+            vim.lsp.enable("clangd")
 
             -- Setup autocompletion config
             local cmp = require("cmp")
