@@ -4,6 +4,11 @@
 -- Design: Bootstraps options, lazy.nvim plugin specs, keymaps, and autocommands.
 --]]
 
+-- Mock obsolete nvim-treesitter.configs to prevent Telescope crash in Neovim 0.11+
+package.loaded["nvim-treesitter.configs"] = {
+    is_enabled = function(...) return true end,
+}
+
 -- Load base configuration options
 require("config.options")
 
