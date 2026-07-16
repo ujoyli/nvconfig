@@ -34,3 +34,7 @@ map("v", ">", ">gv", { desc = "Indent Right" })
 -- Move lines up and down in Visual mode
 map("v", "J", ":m '>+1<cr>gv=gv", { desc = "Move Down" })
 map("v", "K", ":m '<-2<cr>gv=gv", { desc = "Move Up" })
+
+-- 鼠标选中文本后自动复制到剪贴板并退出可视模式
+map("v", "<LeftRelease>", '"+y', { desc = "Copy on mouse release" })
+

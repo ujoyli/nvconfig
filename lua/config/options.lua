@@ -12,6 +12,19 @@ local opt = vim.opt
 
 -- General settings
 opt.mouse = "a"                         -- Enable mouse support
+
+-- Configure OSC 52 as the clipboard provider (works over SSH/containers)
+vim.g.clipboard = {
+  name = 'OSC 52',
+  copy = {
+    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+  },
+  paste = {
+    ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+  },
+}
 opt.clipboard = "unnamedplus"           -- Sync with system clipboard
 opt.completeopt = { "menu", "menuone", "noselect" } -- CMP autocomplete options
 
