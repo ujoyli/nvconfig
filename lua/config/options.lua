@@ -58,6 +58,7 @@ opt.swapfile = false                    -- Do not create swap files
 opt.backup = false                      -- Do not create backup files
 opt.undofile = true                     -- Enable persistent undo
 opt.updatetime = 250                    -- Decrease update time for faster feedback
+opt.timeoutlen = 500                    -- Time to wait for mapped sequence to complete (ms)
 
 -- File encoding
 opt.fileencoding = "utf-8"              -- The encoding written to a file

@@ -29,6 +29,23 @@ vim.api.nvim_create_autocmd("VimResized", {
     end,
 })
 
+-- Make the matching bracket under the cursor clearly visible.
+-- Re-applied on every colorscheme change, since colorschemes reset highlights.
+local function set_matchparen_hl()
+    vim.api.nvim_set_hl(0, "MatchParen", {
+        fg = "#FFB86C", -- orange text
+        bg = "#44475A", -- subtle grey background
+        bold = true,
+        underline = true,
+    })
+end
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+    group = create_augroup("matchparen_hl"),
+    callback = set_matchparen_hl,
+})
+set_matchparen_hl()
+
 -- Close some filetypes with <q>
 vim.api.nvim_create_autocmd("FileType", {
     group = create_augroup("close_with_q"),

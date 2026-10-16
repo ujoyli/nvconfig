@@ -9,6 +9,7 @@ return {
         "nvim-telescope/telescope.nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
         keys = {
+            { "<leader>?", function() require("telescope.builtin").keymaps() end, desc = "Search Keymaps (快捷键列表/搜索)" },
             { "<leader>ff", function() require("telescope.builtin").find_files() end, desc = "Find Files" },
             { "<leader>fg", function() require("telescope.builtin").live_grep() end, desc = "Find by Grep" },
             { "<leader>fb", function() require("telescope.builtin").buffers() end, desc = "Find Buffers" },

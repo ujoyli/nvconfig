@@ -36,8 +36,8 @@ require("lazy").setup({
             -- Disable unused built-in plugins for faster startup
             disabled_plugins = {
                 "gzip",
-                "matchit",
-                "matchparen",
+                -- "matchit",   -- keep enabled: extends % to if/else/end pairs
+                -- "matchparen", -- keep enabled: highlights the matching bracket under cursor
                 "netrwPlugin",
                 "tarPlugin",
                 "tohtml",
